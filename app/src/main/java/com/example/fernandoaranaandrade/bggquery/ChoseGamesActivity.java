@@ -72,24 +72,8 @@ public class ChoseGamesActivity extends AppCompatActivity {
             }
         }
 
-        private Items fillItemsArray(DataGetterData dataGetterData, int tries) throws InterruptedException {
-            try {
-                return xmlConverter.convertToItems(dataGetterData);
-            } catch (Exception e){
-                System.out.println(dataGetterData.getXml().toString());
-                if (dataGetterData.getXml().toString().contains("Please try again later for access")) {
-                    System.out.println("vuelve a intentar");
-                    Thread.sleep(4000l);
-                    return fillItemsArray(dataGetterData, tries--);
-                }
-                if (dataGetterData.getXml().toString().contains("Invalid username specified")) {
-                    System.out.println("error usuario");
-                    Intent intent = new Intent(ChoseGamesActivity.this, ChoseGamesActivity.class);
-                    intent.putExtra(ChoseGamesActivity.INVALID_USER, true);
-                    startActivity(intent);
-                }
-                return null;
-            }
+        private Items fillItemsArray(DataGetterData dataGetterData, int tries) throws Exception {
+            return xmlConverter.convertToItems(dataGetterData);
         }
 
         @Override

@@ -1,16 +1,11 @@
 package com.example.fernandoaranaandrade.bggquery.selectBussines;
 
-import android.content.Context;
+import android.content.Intent;
 
-import com.example.fernandoaranaandrade.bggquery.selectBussines.items.Items;
-import com.example.fernandoaranaandrade.bggquery.selectBussines.items.item.Item;
-
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
+import com.example.fernandoaranaandrade.bggquery.ChoseGamesActivity;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,25 +14,36 @@ import java.net.URL;
 
 public class DataGetter {
 
-    public DataGetterData getDataFromUser(String user, String filter, int tries, File directory) throws IOException, InterruptedException {
-        if (tries > 0) {
-            StringBuffer xml = sentRequest(user, filter);
-            try {
-                File outputFile = File.createTempFile(user, "txt", directory);
-                FileOutputStream fileInputStream = new FileOutputStream(outputFile);
-                fileInputStream.write(xml.toString().getBytes());
-                fileInputStream.close();
-                return new DataGetterData(outputFile,user);
-            } catch (Exception e) {
-                e.printStackTrace();
+    public DataGetterData getDataFromUser(String user, String filter, int tries, File directory) {
+        try {
+            if (tries > 0) {
+                StringBuffer xml = sentRequest(user, filter);
+                String content = xml.toString();
+                if(content.startsWith("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?><items totalitems=") || content.startsWith("<items totalitems")){
+                    File outputFile = File.createTempFile(user, ".xml", directory);
+                    FileOutputStream fileInputStream = new FileOutputStream(outputFile);
+                    fileInputStream.write(content.getBytes());
+                    fileInputStream.close();
+                    return new DataGetterData(outputFile, user);
+                } else {
+                    System.out.println(content);
+                    if (content.contains("Please try again later for access")) {
+                        System.out.println("vuelve a intentar");
+                        Thread.sleep(4000l);
+                        return getDataFromUser(user, filter,tries--,directory);
+                    }
+                    if (content.contains("Invalid username specified")) {
+                        throw new InvalidUserName();
+                    }
+                }
+            } else {
+                System.out.println("Ya no hay mas intentos");
             }
-        } else {
-            System.out.println("Ya no hay mas intentos");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
-
-
 
     private StringBuffer sentRequest(String user, String filter) throws IOException {
         URL url = new URL(getBaseURL(user, filter));
@@ -53,14 +59,13 @@ public class DataGetter {
         return content;
     }
 
-
     private String getBaseURL(String user, String filter) {
-        if(filter == null){
+        if (filter == null) {
             String url = "https://www.boardgamegeek.com/xmlapi/collection/" + user.replace(" ", "%20");
             System.out.println(url);
             return url;
         }
-        return "https://www.boardgamegeek.com/xmlapi/collection/" + user.replace(" ","%20") + "?" + filter + "=1";
+        return "https://www.boardgamegeek.com/xmlapi/collection/" + user.replace(" ", "%20") + "?" + filter + "=1";
     }
 
 }

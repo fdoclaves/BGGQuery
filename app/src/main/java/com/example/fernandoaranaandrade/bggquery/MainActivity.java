@@ -20,6 +20,7 @@ import android.widget.EditText;
 
 import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetter;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetterData;
+import com.example.fernandoaranaandrade.bggquery.selectBussines.InvalidUserName;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.XmlConverter;
 
 import java.io.File;
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity
     private class InternetGetter extends AsyncTask<String, Void, String> {
         public static final String OK = "OK";
         public static final String ERROR = "ERROR";
+        public static final String INVALID_USER_NAME="INVALID_USER_NAME";
         public static final String NOT_INTERNET = "NOT_INTERNET";
         private DataGetter dataGetter = new DataGetter();
         private ProgressDialog gettingDataDialog;
@@ -144,7 +146,9 @@ public class MainActivity extends AppCompatActivity
                     return OK;
                 }
                 return NOT_INTERNET;
-            } catch (Exception e) {
+            } catch (InvalidUserName e) {
+                return INVALID_USER_NAME;
+            } catch (Exception e){
                 return ERROR;
             }
         }
@@ -165,7 +169,9 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra(ChoseGamesActivity.MainActivityMetadata, new MainActivityMetadata(dataGetterData, users));
                 startActivity(intent);
             } else if (result.equals(NOT_INTERNET)) {
-                System.out.println("NOT_INTERNET");
+                System.out.println(NOT_INTERNET);
+            } else if (result.equals(INVALID_USER_NAME)) {
+                System.out.println(INVALID_USER_NAME);
             }
             gettingDataDialog.dismiss();
         }
