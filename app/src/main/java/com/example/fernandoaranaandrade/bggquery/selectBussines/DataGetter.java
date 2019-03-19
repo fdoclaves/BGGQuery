@@ -1,9 +1,5 @@
 package com.example.fernandoaranaandrade.bggquery.selectBussines;
 
-import android.content.Intent;
-
-import com.example.fernandoaranaandrade.bggquery.ChoseGamesActivity;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,33 +10,29 @@ import java.net.URL;
 
 public class DataGetter {
 
-    public DataGetterData getDataFromUser(String user, String filter, int tries, File directory) {
-        try {
-            if (tries > 0) {
-                StringBuffer xml = sentRequest(user, filter);
-                String content = xml.toString();
-                if(content.startsWith("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?><items totalitems=") || content.startsWith("<items totalitems")){
-                    File outputFile = File.createTempFile(user, ".xml", directory);
-                    FileOutputStream fileInputStream = new FileOutputStream(outputFile);
-                    fileInputStream.write(content.getBytes());
-                    fileInputStream.close();
-                    return new DataGetterData(outputFile, user);
-                } else {
-                    System.out.println(content);
-                    if (content.contains("Please try again later for access")) {
-                        System.out.println("vuelve a intentar");
-                        Thread.sleep(4000l);
-                        return getDataFromUser(user, filter,tries--,directory);
-                    }
-                    if (content.contains("Invalid username specified")) {
-                        throw new InvalidUserName();
-                    }
-                }
+    public DataGetterData getDataFromUser(String user, String filter, int tries, File directory) throws InterruptedException, IOException {
+        if (tries > 0) {
+            StringBuffer xml = sentRequest(user, filter);
+            String content = xml.toString();
+            if (content.startsWith("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?><items totalitems=") || content.startsWith("<items totalitems")) {
+                File outputFile = File.createTempFile(user, ".xml", directory);
+                FileOutputStream fileInputStream = new FileOutputStream(outputFile);
+                fileInputStream.write(content.getBytes());
+                fileInputStream.close();
+                return new DataGetterData(outputFile, user);
             } else {
-                System.out.println("Ya no hay mas intentos");
+                System.out.println(content);
+                if (content.contains("Please try again later for access")) {
+                    System.out.println("vuelve a intentar");
+                    Thread.sleep(4000l);
+                    return getDataFromUser(user, filter, tries--, directory);
+                }
+                if (content.contains("Invalid username specified")) {
+                    throw new InvalidUserName();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            System.out.println("Ya no hay mas intentos");
         }
         return null;
     }

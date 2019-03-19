@@ -16,12 +16,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
+import android.widget.ListView;
 
 import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetter;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetterData;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.InvalidUserName;
-import com.example.fernandoaranaandrade.bggquery.selectBussines.XmlConverter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,6 +29,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private List<String> users = new ArrayList<>();
+    private UsernameAdapter adapter;
+    UserListManager userListManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,32 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        userListManager = new UserListManager() {
+            @Override
+            public void add(String username) {
+                users.add(username);
+                adapter.notifyDataSetChanged();
+                if(users.size() == 6){
+                    Button button = findViewById(R.id.buttonAddUserMain);
+                    button.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void delete(String username) {
+                users.remove(username);
+                adapter.notifyDataSetChanged();
+                if(users.size() < 6){
+                    Button button = findViewById(R.id.buttonAddUserMain);
+                    button.setVisibility(View.VISIBLE);
+                }
+            }
+        };
+        adapter = new UsernameAdapter(this, users, userListManager);
+        final ListView listview = findViewById(R.id.username_list);
+        listview.setAdapter(adapter);
     }
 
     @Override
@@ -96,13 +126,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void choose_games(View v) {
-        List<String> users = new ArrayList<>();
-        addUser(users, R.id.editText);
-        addUser(users, R.id.editText2);
-        addUser(users, R.id.editText3);
-        addUser(users, R.id.editText4);
-        addUser(users, R.id.editText5);
-        addUser(users, R.id.editText6);
         String[] args = new String[users.size()];
         for (int i = 0; i < args.length; i++) {
             args[i] = users.get(i);
@@ -110,22 +133,21 @@ public class MainActivity extends AppCompatActivity
         new InternetGetter().execute(args);
     }
 
-    private void addUser(List<String> users, int idEditText) {
-        EditText editText = findViewById(idEditText);
-        if (!editText.getText().toString().isEmpty()) {
-            users.add(editText.getText().toString());
-        }
+    public void add_username(View v) {
+        AddUserFragment addUserFragment = AddUserFragment.newInstance("", userListManager);
+        addUserFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
     }
 
     private class InternetGetter extends AsyncTask<String, Void, String> {
         public static final String OK = "OK";
         public static final String ERROR = "ERROR";
-        public static final String INVALID_USER_NAME="INVALID_USER_NAME";
+        public static final String INVALID_USER_NAME = "INVALID_USER_NAME";
         public static final String NOT_INTERNET = "NOT_INTERNET";
         private DataGetter dataGetter = new DataGetter();
         private ProgressDialog gettingDataDialog;
         private String[] users;
         private DataGetterData[] dataGetterData;
+        private int index;
 
         @Override
         protected void onPreExecute() {
@@ -141,6 +163,7 @@ public class MainActivity extends AppCompatActivity
                     dataGetterData = new DataGetterData[users.length];
                     File cacheDir = MainActivity.this.getCacheDir();
                     for (int i = 0; i < usernames.length; i++) {
+                        index = i;
                         dataGetterData[i] = dataGetter.getDataFromUser(usernames[i], null, 5, cacheDir);
                     }
                     return OK;
@@ -148,7 +171,7 @@ public class MainActivity extends AppCompatActivity
                 return NOT_INTERNET;
             } catch (InvalidUserName e) {
                 return INVALID_USER_NAME;
-            } catch (Exception e){
+            } catch (Exception e) {
                 return ERROR;
             }
         }
@@ -168,12 +191,18 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, ChoseGamesActivity.class);
                 intent.putExtra(ChoseGamesActivity.MainActivityMetadata, new MainActivityMetadata(dataGetterData, users));
                 startActivity(intent);
+                gettingDataDialog.dismiss();
             } else if (result.equals(NOT_INTERNET)) {
-                System.out.println(NOT_INTERNET);
+                InvalidUserFragment invalidUserFragment = InvalidUserFragment.newInstance("");
+                invalidUserFragment.setInvalidUser(getString(R.string.NotInternet));
+                invalidUserFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+                gettingDataDialog.dismiss();
             } else if (result.equals(INVALID_USER_NAME)) {
-                System.out.println(INVALID_USER_NAME);
+                InvalidUserFragment invalidUserFragment = InvalidUserFragment.newInstance("");
+                invalidUserFragment.setInvalidUser(users[index]);
+                invalidUserFragment.show(getSupportFragmentManager(), "fragment_edit_invalid_user");
+                gettingDataDialog.dismiss();
             }
-            gettingDataDialog.dismiss();
         }
     }
 }

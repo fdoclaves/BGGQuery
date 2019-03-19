@@ -14,6 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class HolaTest {
@@ -52,6 +54,13 @@ public class HolaTest {
         System.out.println(items.getItem().size());
         System.out.println(items.getItem().get(0).getStats().getRating().getValue());
         System.out.println(items.getItem().get(items.getItem().size()-1).getStats().getRating().getValue());
+    }
+
+    @Test
+    public void pepe44() throws Exception {
+        DataGetterData dataGetterData = dataGetter.getDataFromUser("pepe44", null, 5, directory);
+        Items items = xmlConverter.convertToItems(dataGetterData);
+        assertNull(items.getItem());
     }
 
     @Test

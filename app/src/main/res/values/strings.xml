@@ -6,8 +6,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="UserName">UserName</string>
-    <string name="EscribeElNombreDeLosUsuarios">Escribe el nombre de los usuarios</string>
+    <string name="UserName">username</string>
+    <string name="EscribeElNombreDeLosUsuarios">Agrega los usernames de los jugadores</string>
     <string name="EligirQueJugar">Eligir que jugar</string>
     <string name="Salir">Salir</string>
     <string name="Otros">Otros</string>
@@ -15,4 +15,11 @@
     <string name="Procesando">Procesando...</string>
     <string name="MencionesEspeciales">Menciones especiales</string>
     <string name="TotalRating">TOTAL RATING</string>
+    <string name="Error">Error</string>
+    <string name="ElUsuarioEsInvalido">%s es un username invalido</string>
+    <string name="ok">ok</string>
+    <string name="AgregarUsername">Agregar username</string>
+    <string name="NotInternet">Se necesita internet</string>
+    <string name="Agregar">Agregar</string>
+    <string name="Cancelar">Cancelar</string>
 </resources>

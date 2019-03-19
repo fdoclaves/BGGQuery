@@ -13,7 +13,7 @@ import java.util.List;
 @Root
 public class Items implements Serializable{
 
-    @ElementList(entry = "item", inline = true)
+    @ElementList(entry = "item", inline = true, required = false)
     private List<Item> item;
 
     @Attribute(required = false)
