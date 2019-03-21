@@ -70,4 +70,7 @@ public class GamesRated {
         return null;
     }
 
+    public Boolean isTitle() {
+        return false;
+    }
 }

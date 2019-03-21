@@ -57,14 +57,14 @@ public class ChoseGamesActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... usernames) {
+        protected String doInBackground(String... args) {
             try {
                 DataGetterData[] dataGetterDataArray = extra.getDataGetterDataArray();
                 Items[] itemsArray = new Items[dataGetterDataArray.length];
                 for (int i = 0; i < itemsArray.length; i++) {
-                    itemsArray[i] = fillItemsArray(dataGetterDataArray[i], 5);
+                    itemsArray[i] = fillItemsArray(dataGetterDataArray[i]);
                 }
-                gamesResult = new GamesProcessor().bestGame(itemsArray);
+                gamesResult = new GamesProcessor(getString(R.string.JuegosVotos)).bestGame(itemsArray);
                 return OK;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -72,7 +72,7 @@ public class ChoseGamesActivity extends AppCompatActivity {
             }
         }
 
-        private Items fillItemsArray(DataGetterData dataGetterData, int tries) throws Exception {
+        private Items fillItemsArray(DataGetterData dataGetterData) throws Exception {
             return xmlConverter.convertToItems(dataGetterData);
         }
 

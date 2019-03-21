@@ -7,6 +7,16 @@ import java.util.*;
 
 public class GamesProcessor {
 
+    String genericTitle;
+
+    public GamesProcessor(){
+        genericTitle = "%";
+    }
+
+    public GamesProcessor(final String genericTitle){
+        this.genericTitle = genericTitle;
+    }
+
     public Result bestGame(Items... items) {
 
         Map<Long, Item> all = new HashMap<>();
@@ -31,6 +41,16 @@ public class GamesProcessor {
             Average average = getAverage(maps,objectid);
             someGamesRatedList.add(new GamesRated(average));
         }
+        for (int i = 0; i < items.length; i++) {
+            someGamesRatedList.add(new GamesRatedTitle(null,String.format(genericTitle,i+1),i+1));
+        }
+        Collections.sort(someGamesRatedList, new Comparator() {
+            @Override
+            public int compare(Object item, Object item2) {
+                return ((GamesRated)item2).isTitle()
+                        .compareTo(((GamesRated)item).isTitle());
+            }
+        });
         Collections.sort(someGamesRatedList, new Comparator() {
             @Override
             public int compare(Object item, Object item2) {

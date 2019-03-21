@@ -23,7 +23,8 @@
     <string name="Agregar">Agregar</string>
     <string name="Cancelar">Cancelar</string>
     <string name="Nuevo">Nuevo</string>
-    <string name="historial">Historial</string>
+    <string name="historial">Historial de usernames</string>
     <string name="ludotecas">Ludutecas</string>
     <string name="NotUsers">Se necesita agregar al menos un username</string>
+    <string name="JuegosVotos">Juegos con %d votos</string>
 </resources>
