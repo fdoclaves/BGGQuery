@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.fernandoaranaandrade.bggquery.beans.Username;
+import com.example.fernandoaranaandrade.bggquery.database.Queries;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetter;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetterData;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.InvalidUserName;
@@ -32,11 +34,13 @@ public class MainActivity extends AppCompatActivity
 
     private List<String> users = new ArrayList<>();
     private UsernameAdapter adapter;
-    UserListManager userListManager;
+    private UserListManager userListManager;
+    private Queries queries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        queries = new Queries(MainActivity.this);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -113,8 +117,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_manage) {
+        if (id == R.id.nav_historial) {
             // Handle the camera action
+        } else if (id == R.id.nav_own) {
+            // nada
         } else if (id == R.id.exit) {
             finish();
             System.exit(0);
@@ -130,10 +136,36 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < args.length; i++) {
             args[i] = users.get(i);
         }
-        new InternetGetter().execute(args);
+        if(users.size() == 0){
+            InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+            invalidDataFragment.setText(getString(R.string.NotUsers));
+            invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+        } else {
+            new InternetGetter().execute(args);
+        }
+
     }
 
     public void add_username(View v) {
+        if(queries.getCountUsername() == 0){
+            showNewUser();
+        } else {
+            AddOldOrNewUserFragment addOldOrNewUserFragment = AddOldOrNewUserFragment.newInstance("", new NuevoUser() {
+                @Override
+                public void add() {
+                    showNewUser();
+                }
+
+                @Override
+                public void add(final String username) {
+                    userListManager.add(username);
+                }
+            });
+            addOldOrNewUserFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+        }
+    }
+
+    private void showNewUser() {
         AddUserFragment addUserFragment = AddUserFragment.newInstance("", userListManager);
         addUserFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
     }
@@ -188,14 +220,17 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result) {
             if (result.equals(OK)) {
+                for (String user : users) {
+                    queries.saveOrUpdateUsername(new Username(user));
+                }
                 Intent intent = new Intent(MainActivity.this, ChoseGamesActivity.class);
                 intent.putExtra(ChoseGamesActivity.MainActivityMetadata, new MainActivityMetadata(dataGetterData, users));
                 startActivity(intent);
                 gettingDataDialog.dismiss();
             } else if (result.equals(NOT_INTERNET)) {
-                InvalidUserFragment invalidUserFragment = InvalidUserFragment.newInstance("");
-                invalidUserFragment.setInvalidUser(getString(R.string.NotInternet));
-                invalidUserFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+                InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+                invalidDataFragment.setText(getString(R.string.NotInternet));
+                invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
                 gettingDataDialog.dismiss();
             } else if (result.equals(INVALID_USER_NAME)) {
                 InvalidUserFragment invalidUserFragment = InvalidUserFragment.newInstance("");

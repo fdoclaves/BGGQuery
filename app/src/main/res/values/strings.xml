@@ -22,4 +22,8 @@
     <string name="NotInternet">Se necesita internet</string>
     <string name="Agregar">Agregar</string>
     <string name="Cancelar">Cancelar</string>
+    <string name="Nuevo">Nuevo</string>
+    <string name="historial">Historial</string>
+    <string name="ludotecas">Ludutecas</string>
+    <string name="NotUsers">Se necesita agregar al menos un username</string>
 </resources>

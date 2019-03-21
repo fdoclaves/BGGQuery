@@ -5,9 +5,16 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_historial"
+            android:icon="@drawable/ic_timelapse"
+            android:title="@string/historial" />
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_own"
+            android:icon="@drawable/ic_action_knight"
+            android:title="@string/ludotecas" />
     </group>
 
     <item android:title="@string/Otros">

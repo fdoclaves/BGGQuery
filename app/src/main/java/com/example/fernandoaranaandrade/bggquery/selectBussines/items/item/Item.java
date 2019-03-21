@@ -56,6 +56,8 @@ public class Item implements Serializable {
     @Element(required = false)
     private String haspartslist;
 
+    @Element(required = false)
+    private String wishlistcomment;
 
     private String user;
 
@@ -161,5 +163,29 @@ public class Item implements Serializable {
 
     public void setOriginalname(String originalname) {
         this.originalname = originalname;
+    }
+
+    public String getWishlistcomment() {
+        return wishlistcomment;
+    }
+
+    public void setWishlistcomment(String wishlistcomment) {
+        this.wishlistcomment = wishlistcomment;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getHaspartslist() {
+        return haspartslist;
+    }
+
+    public void setHaspartslist(String haspartslist) {
+        this.haspartslist = haspartslist;
     }
 }

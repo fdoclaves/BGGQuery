@@ -6,4 +6,5 @@
     <color name="colorAccent">#eaa02f</color>
     <color name="colorAccentSubtitles">#b95c0e</color>
     <color name="red">#e14c01</color>
+    <color name="trasparencia">#00ffffff</color>
 </resources>
