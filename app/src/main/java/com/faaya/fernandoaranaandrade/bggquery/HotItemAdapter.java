@@ -14,11 +14,15 @@ import android.widget.TextView;
 import com.faaya.fernandoaranaandrade.bggquery.selectBussines.HotItems.HotItem;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HotItemAdapter extends ArrayAdapter<HotItem> {
 
     private boolean isWiFi;
+
+    private static Map<String, Bitmap> cache = new HashMap<>();
 
     public HotItemAdapter(Context context, List<HotItem> items, boolean isWiFi) {
         super(context, 0, items);
@@ -44,7 +48,12 @@ public class HotItemAdapter extends ArrayAdapter<HotItem> {
         }
         ImageView imageView = view.findViewById(R.id.imageView2);
         if(isWiFi){
-            new InternetGetter(imageView).execute(item.getThumbnail().getValue());
+            Bitmap bitmap = cache.get(item.getThumbnail().getValue());
+            if(bitmap == null){
+                new InternetGetter(imageView).execute(item.getThumbnail().getValue());
+            } else {
+                imageView.setImageBitmap(bitmap);
+            }
         } else {
             //imageView.setImageDrawable(view.getResources().getDrawable(R.drawable.boargamelogo));
             imageView.setVisibility(View.INVISIBLE);
@@ -74,6 +83,7 @@ public class HotItemAdapter extends ArrayAdapter<HotItem> {
             try {
                 URL url = new URL(thumbnails[0]);
                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                cache.put(thumbnails[0], bmp);
                 return OK;
             } catch (Exception e) {
                 e.printStackTrace();
