@@ -27,7 +27,7 @@ public class DataGetter {
                 System.out.println(content);
                 if (content.contains("Please try again later for access")) {
                     System.out.println("vuelve a intentar");
-                    Thread.sleep(4000l);
+                    Thread.sleep(4000L);
                     return getDataFromUser(user, filter, tries--, directory);
                 }
                 if (content.contains("Invalid username specified")) {

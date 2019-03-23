@@ -31,7 +31,8 @@
             android:paddingStart="4dp"
             android:paddingEnd="8dp"
             android:tint="@color/colorAccentSubtitles"
-            app:srcCompat="@android:drawable/ic_menu_delete" />
+            app:srcCompat="@android:drawable/ic_menu_delete"
+            android:contentDescription="delete" />
     </LinearLayout>
 
 </LinearLayout>

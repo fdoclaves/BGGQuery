@@ -5,7 +5,6 @@ import com.example.fernandoaranaandrade.bggquery.selectBussines.items.item.statu
 
 
 import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 

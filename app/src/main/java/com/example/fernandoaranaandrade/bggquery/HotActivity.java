@@ -22,15 +22,12 @@ import java.io.File;
 
 public class HotActivity extends AppCompatActivity {
 
-    private Queries queries;
     private XmlConverter xmlConverter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hot);
-
-        queries = new Queries(this);
         xmlConverter = new XmlConverter();
 
         new InternetGetter().execute();
@@ -80,26 +77,32 @@ public class HotActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             try {
-                if (result.equals(OK)) {
-                    ListView listview = findViewById(R.id.listLudoteca);
-                    listview.setAdapter(new HotItemAdapter(HotActivity.this, itemses.getItem(), isWiFi));
-                    listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                            final HotItem item = (HotItem) parent.getItemAtPosition(position);
-                            Intent intent = new Intent(HotActivity.this, WebActivity.class);
-                            intent.putExtra(WebActivity.URL_WEB, "https://boardgamegeek.com/boardgame/" + item.getId());
-                            startActivity(intent);
-                        }
-                    });
-                } else if (result.equals(NOT_INTERNET)) {
-                    InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
-                    invalidDataFragment.setText(getString(R.string.NotInternet));
-                    invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
-                } else if (result.equals(ERROR)) {
-                    InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
-                    invalidDataFragment.setText(getString(R.string.ErrorConElServidorIntenteloMasTarde));
-                    invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+                switch (result) {
+                    case OK:
+                        ListView listview = findViewById(R.id.listLudoteca);
+                        listview.setAdapter(new HotItemAdapter(HotActivity.this, itemses.getItem(), isWiFi));
+                        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                                final HotItem item = (HotItem) parent.getItemAtPosition(position);
+                                Intent intent = new Intent(HotActivity.this, WebActivity.class);
+                                intent.putExtra(WebActivity.URL_WEB, "https://boardgamegeek.com/boardgame/" + item.getId());
+                                startActivity(intent);
+                            }
+                        });
+                        break;
+                    case NOT_INTERNET: {
+                        InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+                        invalidDataFragment.setText(getString(R.string.NotInternet));
+                        invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+                        break;
+                    }
+                    case ERROR: {
+                        InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+                        invalidDataFragment.setText(getString(R.string.ErrorConElServidorIntenteloMasTarde));
+                        invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+                        break;
+                    }
                 }
             } catch (Exception e) {
                 InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");

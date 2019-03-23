@@ -27,7 +27,7 @@ public class Queries {
     @NonNull
     private List<Username> selectUsername(final String sql, final String... args) {
         Cursor cursor = sqLiteDatabase.rawQuery(sql, args);
-        final List<Username> usernames = new ArrayList<Username>();
+        final List<Username> usernames = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
                 usernames.add(new Username(cursor));
@@ -88,6 +88,7 @@ public class Queries {
                 return cursor.getInt(0);
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return 0;
     }
 

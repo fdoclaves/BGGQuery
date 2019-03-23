@@ -68,7 +68,8 @@ public class GamesRatedAdapter extends ArrayAdapter<GamesRated> {
             DecimalFormat decimalFormat = new DecimalFormat(".##");
             String format = decimalFormat.format(gamesRated.getAllAverage());
             TextView textView = view.findViewById(R.id.textViewRating);
-            textView.setText(totalRatingText + format);
+            String text = totalRatingText + format;
+            textView.setText(text);
             TextView rating1 = view.findViewById(R.id.textViewRating1);
             rating1.setText(getText(gamesRated, 0, userWhoRated));
             if (userWhoRated.size() > 1) {

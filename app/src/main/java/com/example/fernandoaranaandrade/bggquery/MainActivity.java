@@ -250,24 +250,28 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String result) {
-            if (result.equals(OK)) {
-                for (String user : users) {
-                    queries.saveOrUpdateUsername(new Username(user));
-                }
-                Intent intent = new Intent(MainActivity.this, ChoseGamesActivity.class);
-                intent.putExtra(ChoseGamesActivity.MainActivityMetadata, new MainActivityMetadata(dataGetterData, users));
-                startActivity(intent);
-                gettingDataDialog.dismiss();
-            } else if (result.equals(NOT_INTERNET)) {
-                InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
-                invalidDataFragment.setText(getString(R.string.NotInternet));
-                invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
-                gettingDataDialog.dismiss();
-            } else if (result.equals(INVALID_USER_NAME)) {
-                InvalidUserFragment invalidUserFragment = InvalidUserFragment.newInstance("");
-                invalidUserFragment.setInvalidUser(users[index]);
-                invalidUserFragment.show(getSupportFragmentManager(), "fragment_edit_invalid_user");
-                gettingDataDialog.dismiss();
+            switch (result) {
+                case OK:
+                    for (String user : users) {
+                        queries.saveOrUpdateUsername(new Username(user));
+                    }
+                    Intent intent = new Intent(MainActivity.this, ChoseGamesActivity.class);
+                    intent.putExtra(ChoseGamesActivity.MainActivityMetadata, new MainActivityMetadata(dataGetterData, users));
+                    startActivity(intent);
+                    gettingDataDialog.dismiss();
+                    break;
+                case NOT_INTERNET:
+                    InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+                    invalidDataFragment.setText(getString(R.string.NotInternet));
+                    invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+                    gettingDataDialog.dismiss();
+                    break;
+                case INVALID_USER_NAME:
+                    InvalidUserFragment invalidUserFragment = InvalidUserFragment.newInstance("");
+                    invalidUserFragment.setInvalidUser(users[index]);
+                    invalidUserFragment.show(getSupportFragmentManager(), "fragment_edit_invalid_user");
+                    gettingDataDialog.dismiss();
+                    break;
             }
         }
     }

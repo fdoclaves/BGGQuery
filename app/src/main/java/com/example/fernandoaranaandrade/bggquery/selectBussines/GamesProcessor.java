@@ -25,7 +25,7 @@ public class GamesProcessor {
 
         List<Map<Long, Item>> maps = new ArrayList<>();
 
-        List<GamesRated> someGamesRatedList = new ArrayList<GamesRated>();
+        List<GamesRated> someGamesRatedList = new ArrayList<>();
 
         for (Items userItems : items) {
             if(userItems != null && userItems.getItem() != null){

@@ -1,10 +1,7 @@
 package com.example.fernandoaranaandrade.bggquery;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,11 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetter;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.DataGetterData;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.GamesProcessor;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.GamesRated;
-import com.example.fernandoaranaandrade.bggquery.selectBussines.InvalidUserName;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.Result;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.XmlConverter;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.items.Items;
