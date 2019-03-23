@@ -8,13 +8,15 @@ import java.util.*;
 public class GamesProcessor {
 
     String genericTitle;
+    private String genericTitlePlural;
 
     public GamesProcessor(){
         genericTitle = "%";
     }
 
-    public GamesProcessor(final String genericTitle){
+    public GamesProcessor(final String genericTitle, final String genericTitlePlural){
         this.genericTitle = genericTitle;
+        this.genericTitlePlural = genericTitlePlural;
     }
 
     public Result bestGame(Items... items) {
@@ -42,7 +44,11 @@ public class GamesProcessor {
             someGamesRatedList.add(new GamesRated(average));
         }
         for (int i = 0; i < items.length; i++) {
-            someGamesRatedList.add(new GamesRatedTitle(null,String.format(genericTitle,i+1),i+1));
+            if(i == 0){
+                someGamesRatedList.add(new GamesRatedTitle(null,String.format(genericTitle,i+1),i+1));
+            } else {
+                someGamesRatedList.add(new GamesRatedTitle(null,String.format(genericTitlePlural,i+1),i+1));
+            }
         }
         Collections.sort(someGamesRatedList, new Comparator() {
             @Override

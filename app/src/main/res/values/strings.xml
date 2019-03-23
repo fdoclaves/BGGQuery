@@ -26,5 +26,6 @@
     <string name="historial">Historial de usernames</string>
     <string name="ludotecas">Ludutecas</string>
     <string name="NotUsers">Se necesita agregar al menos un username</string>
-    <string name="JuegosVotos">Juegos con %d votos</string>
+    <string name="JuegosVotos">Juegos con %d voto</string>
+    <string name="JuegosVotosPlural">Juegos con %d votos</string>
 </resources>

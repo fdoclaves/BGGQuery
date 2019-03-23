@@ -150,19 +150,37 @@ public class MainActivity extends AppCompatActivity
         if(queries.getCountUsername() == 0){
             showNewUser();
         } else {
-            AddOldOrNewUserFragment addOldOrNewUserFragment = AddOldOrNewUserFragment.newInstance("", new NuevoUser() {
-                @Override
-                public void add() {
-                    showNewUser();
-                }
+            List<Username> usernameList = getUsernameList();
+            if(usernameList.size() == 0){
+                showNewUser();
+            } else {
+                AddOldOrNewUserFragment addOldOrNewUserFragment = AddOldOrNewUserFragment.newInstance("", new NuevoUser() {
+                    @Override
+                    public void add() {
+                        showNewUser();
+                    }
 
-                @Override
-                public void add(final String username) {
-                    userListManager.add(username);
-                }
-            });
-            addOldOrNewUserFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+                    @Override
+                    public void add(final String username) {
+                        userListManager.add(username);
+                    }
+                }, usernameList);
+                addOldOrNewUserFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
+            }
         }
+    }
+
+    private List<Username> getUsernameList() {
+        List<Username> allUsername = queries.getAllUsername();
+        for (String user : users) {
+            for (Username username : allUsername) {
+                if(username.getUsername().equals(user)){
+                    allUsername.remove(username);
+                    break;
+                }
+            }
+        }
+        return allUsername;
     }
 
     private void showNewUser() {

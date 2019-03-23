@@ -15,20 +15,26 @@ import com.example.fernandoaranaandrade.bggquery.beans.Username;
 import com.example.fernandoaranaandrade.bggquery.database.Queries;
 import com.example.fernandoaranaandrade.bggquery.selectBussines.GamesRated;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddOldOrNewUserFragment extends DialogFragment {
 
     private static NuevoUser nuevoUser;
+
+    private List<Username> usernames = new ArrayList<>();
 
     public AddOldOrNewUserFragment() {
 
     }
 
-    public static AddOldOrNewUserFragment newInstance(String title, NuevoUser nuevoUser) {
+    public static AddOldOrNewUserFragment newInstance(String title, NuevoUser nuevoUser, List<Username> usernames) {
         AddOldOrNewUserFragment.nuevoUser = nuevoUser;
         AddOldOrNewUserFragment frag = new AddOldOrNewUserFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
+        frag.setUsernames(usernames);
         return frag;
     }
 
@@ -58,9 +64,8 @@ public class AddOldOrNewUserFragment extends DialogFragment {
             }
         });
 
-        Queries queries = new Queries(view.getContext());
         ListView listView = view.findViewById(R.id.listViewNuevoOld);
-        listView.setAdapter(new UsernameViewAdapter(view.getContext(),queries.getAllUsername()));
+        listView.setAdapter(new UsernameViewAdapter(view.getContext(),usernames));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
@@ -77,4 +82,7 @@ public class AddOldOrNewUserFragment extends DialogFragment {
         //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
+    public void setUsernames(List<Username> usernames) {
+        this.usernames = usernames;
+    }
 }

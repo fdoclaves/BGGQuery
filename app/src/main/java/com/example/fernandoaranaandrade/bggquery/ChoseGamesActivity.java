@@ -64,7 +64,7 @@ public class ChoseGamesActivity extends AppCompatActivity {
                 for (int i = 0; i < itemsArray.length; i++) {
                     itemsArray[i] = fillItemsArray(dataGetterDataArray[i]);
                 }
-                gamesResult = new GamesProcessor(getString(R.string.JuegosVotos)).bestGame(itemsArray);
+                gamesResult = new GamesProcessor(getString(R.string.JuegosVotos),getString(R.string.JuegosVotosPlural)).bestGame(itemsArray);
                 return OK;
             } catch (Exception e) {
                 e.printStackTrace();
