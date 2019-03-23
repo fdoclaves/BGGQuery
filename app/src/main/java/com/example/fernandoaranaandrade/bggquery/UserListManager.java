@@ -1,7 +1,9 @@
 package com.example.fernandoaranaandrade.bggquery;
 
-interface UserListManager {
-    void add(String username);
+import com.example.fernandoaranaandrade.bggquery.beans.Username;
 
-    void delete(String username);
+interface UserListManager {
+    void add(Username username);
+
+    void delete(Username username);
 }

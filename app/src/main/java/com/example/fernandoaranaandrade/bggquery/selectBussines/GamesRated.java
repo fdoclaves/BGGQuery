@@ -73,4 +73,13 @@ public class GamesRated {
     public Boolean isTitle() {
         return false;
     }
+
+    public Long getId() {
+        for (int i = 0; i < average.getItems().size(); i++) {
+            if(!average.getItems().isEmpty()){
+                return average.getItems().get(i).getObjectid();
+            }
+        }
+        return null;
+    }
 }

@@ -71,7 +71,7 @@ public class AddOldOrNewUserFragment extends DialogFragment {
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final Username username = (Username) parent.getItemAtPosition(position);
                 System.out.println("click:"+username.getUsername());
-                nuevoUser.add(username.getUsername());
+                nuevoUser.add(username);
                 dismiss();
             }
         });

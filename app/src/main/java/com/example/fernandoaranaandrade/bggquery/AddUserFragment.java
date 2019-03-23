@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.fernandoaranaandrade.bggquery.beans.Username;
+
 public class AddUserFragment extends DialogFragment {
 
     private static UserListManager userListManager;
@@ -42,7 +44,7 @@ public class AddUserFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 EditText editText = view.findViewById(R.id.editTextAddUser);
-                userListManager.add(editText.getText().toString());
+                userListManager.add(new Username(editText.getText().toString()));
                 dismiss();
             }
         });

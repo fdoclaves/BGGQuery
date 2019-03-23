@@ -32,7 +32,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private List<String> users = new ArrayList<>();
+    private List<Username> users = new ArrayList<>();
     private UsernameAdapter adapter;
     private UserListManager userListManager;
     private Queries queries;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
 
         userListManager = new UserListManager() {
             @Override
-            public void add(String username) {
+            public void add(Username username) {
                 users.add(username);
                 adapter.notifyDataSetChanged();
                 if(users.size() == 6){
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void delete(String username) {
+            public void delete(Username username) {
                 users.remove(username);
                 adapter.notifyDataSetChanged();
                 if(users.size() < 6){
@@ -76,9 +76,17 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         };
-        adapter = new UsernameAdapter(this, users, userListManager);
+        adapter = new UsernameAdapter(this, users);
+        adapter.setUserListManager(userListManager);
         final ListView listview = findViewById(R.id.username_list);
         listview.setAdapter(adapter);
+
+        boolean error = getIntent().getBooleanExtra(ChoseGamesActivity.ERROR, false);
+        if(error){
+            InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+            invalidDataFragment.setText(getString(R.string.ErrorConElServidorIntenteloMasTarde));
+            invalidDataFragment.show(getSupportFragmentManager(), "fragment_error_internet");
+        }
     }
 
     @Override
@@ -118,9 +126,14 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_historial) {
-            // Handle the camera action
+            Intent intent = new Intent(this, HistorialActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_own) {
-            // nada
+            Intent intent = new Intent(this, LudotecaActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_hot) {
+            Intent intent = new Intent(this, HotActivity.class);
+            startActivity(intent);
         } else if (id == R.id.exit) {
             finish();
             System.exit(0);
@@ -134,7 +147,7 @@ public class MainActivity extends AppCompatActivity
     public void choose_games(View v) {
         String[] args = new String[users.size()];
         for (int i = 0; i < args.length; i++) {
-            args[i] = users.get(i);
+            args[i] = users.get(i).getUsername();
         }
         if(users.size() == 0){
             InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
@@ -161,7 +174,7 @@ public class MainActivity extends AppCompatActivity
                     }
 
                     @Override
-                    public void add(final String username) {
+                    public void add(final Username username) {
                         userListManager.add(username);
                     }
                 }, usernameList);
@@ -172,9 +185,9 @@ public class MainActivity extends AppCompatActivity
 
     private List<Username> getUsernameList() {
         List<Username> allUsername = queries.getAllUsername();
-        for (String user : users) {
+        for (Username user : users) {
             for (Username username : allUsername) {
-                if(username.getUsername().equals(user)){
+                if(username.getUsername().equals(user.getUsername())){
                     allUsername.remove(username);
                     break;
                 }

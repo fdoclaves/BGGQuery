@@ -27,8 +27,7 @@ import java.io.File;
 public class ChoseGamesActivity extends AppCompatActivity {
 
     public static final String MainActivityMetadata = "MainActivityMetadata";
-    private static final String INVALID_USER = "INVALID_USER";
-    private static final String ERROR = "ERROR";
+    public static final String ERROR = "ERROR";
     private XmlConverter xmlConverter = new XmlConverter();
     private MainActivityMetadata extra;
     private Result gamesResult;
@@ -96,7 +95,9 @@ public class ChoseGamesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final GamesRated item = (GamesRated) parent.getItemAtPosition(position);
-                System.out.println("click:"+item.getName());
+                Intent intent = new Intent(ChoseGamesActivity.this, WebActivity.class);
+                intent.putExtra(WebActivity.URL_WEB, "https://boardgamegeek.com/boardgame/"+item.getId());
+                startActivity(intent);
             }
         });
 
@@ -106,16 +107,17 @@ public class ChoseGamesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final GamesRated item = (GamesRated) parent.getItemAtPosition(position);
-                System.out.println("click:"+item.getName());
+                Intent intent = new Intent(ChoseGamesActivity.this, WebActivity.class);
+                intent.putExtra(WebActivity.URL_WEB, "https://boardgamegeek.com/boardgame/"+item.getId());
+                startActivity(intent);
                 /*view.animate().setDuration(2000).alpha(0)
                         .withEndAction(new Runnable() {
                             @Override
                             public void run() {
-                                System.out.println("hola!!!!!!");
-                                adapter.notifyDataSetChanged();
                                 view.setAlpha(1);
                             }
                         });*/
+
             }
         });
     }

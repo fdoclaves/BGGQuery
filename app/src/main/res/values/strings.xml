@@ -12,6 +12,7 @@
     <string name="Salir">Salir</string>
     <string name="Otros">Otros</string>
     <string name="Cargando">Cargando...</string>
+    <string name="CargandoSitioWeb">Cargando sitio web...</string>
     <string name="Procesando">Procesando...</string>
     <string name="MencionesEspeciales">Menciones especiales</string>
     <string name="TotalRating">TOTAL RATING</string>
@@ -25,7 +26,9 @@
     <string name="Nuevo">Nuevo</string>
     <string name="historial">Historial de usernames</string>
     <string name="ludotecas">Ludutecas</string>
+    <string name="TheHotness">The Hotness</string>
     <string name="NotUsers">Se necesita agregar al menos un username</string>
     <string name="JuegosVotos">Juegos con %d voto</string>
     <string name="JuegosVotosPlural">Juegos con %d votos</string>
+    <string name="ErrorConElServidorIntenteloMasTarde">Error con el servidor, inténtelo más tarde</string>
 </resources>
