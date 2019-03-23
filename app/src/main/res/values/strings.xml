@@ -31,4 +31,6 @@
     <string name="JuegosVotos">Juegos con %d voto</string>
     <string name="JuegosVotosPlural">Juegos con %d votos</string>
     <string name="ErrorConElServidorIntenteloMasTarde">Error con el servidor, inténtelo más tarde</string>
+    <string name="AbrirEnUnNavegador">Abrir en un navegador</string>
+    <string name="Abrir">Abrir</string>
 </resources>

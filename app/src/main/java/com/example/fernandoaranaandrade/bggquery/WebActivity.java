@@ -2,14 +2,15 @@ package com.example.fernandoaranaandrade.bggquery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -20,6 +21,8 @@ public class WebActivity extends AppCompatActivity {
 
     private WebView webView;
 
+    private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +32,22 @@ public class WebActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
-        webView.loadUrl(getIntent().getStringExtra(URL_WEB));
+        url = getIntent().getStringExtra(URL_WEB);
+        webView.loadUrl(url);
 
         Toast toast1 = Toast.makeText(getApplicationContext(), getString(R.string.CargandoSitioWeb), Toast.LENGTH_SHORT);
         toast1.show();
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar.make(parentLayout, getString(R.string.AbrirEnUnNavegador), Snackbar.LENGTH_INDEFINITE)
+                .setActionTextColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setAction(getString(R.string.Abrir), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( url ) );
+                        startActivity( browse );
+                    }
+                })
+                .show();
     }
 
 
