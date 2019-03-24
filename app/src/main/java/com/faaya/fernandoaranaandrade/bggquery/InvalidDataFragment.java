@@ -11,10 +11,17 @@ import android.widget.TextView;
 
 public class InvalidDataFragment extends DialogFragment {
 
+    private static OkAction okAction;
     private String text;
 
     public InvalidDataFragment() {
 
+    }
+
+    public static InvalidDataFragment newInstance(String title, OkAction okAction) {
+        InvalidDataFragment fragment = newInstance(title);
+        InvalidDataFragment.okAction = okAction;
+        return fragment;
     }
 
     public static InvalidDataFragment newInstance(String title) {
@@ -22,6 +29,12 @@ public class InvalidDataFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
+        okAction = new OkAction() {
+            @Override
+            public void action() {
+
+            }
+        };
         return frag;
     }
 
@@ -42,6 +55,7 @@ public class InvalidDataFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
+                okAction.action();
             }
         });
 

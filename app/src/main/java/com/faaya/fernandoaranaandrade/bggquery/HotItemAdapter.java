@@ -37,28 +37,27 @@ public class HotItemAdapter extends ArrayAdapter<HotItem> {
         TextView name = view.findViewById(R.id.textViewName);
         String gameName = item.getName().getValue();
         name.setText(gameName);
-        if(gameName.length() > 20){
-           name.setTextSize(20);
+        if (gameName.length() > 20) {
+            name.setTextSize(20);
         }
-        if(gameName.length() > 29){
+        if (gameName.length() > 29) {
             name.setTextSize(16);
         }
-        if(gameName.length() > 35){
+        if (gameName.length() > 35) {
             name.setTextSize(14);
         }
         ImageView imageView = view.findViewById(R.id.imageView2);
-        if(isWiFi){
-            Bitmap bitmap = cache.get(item.getThumbnail().getValue());
-            if(bitmap == null){
+        Bitmap bitmap = cache.get(item.getThumbnail().getValue());
+        if (bitmap == null) {
+            if (isWiFi) {
                 new InternetGetter(imageView).execute(item.getThumbnail().getValue());
             } else {
-                imageView.setImageBitmap(bitmap);
+                //imageView.setImageDrawable(view.getResources().getDrawable(R.drawable.boargamelogo));
+                imageView.setVisibility(View.INVISIBLE);
             }
         } else {
-            //imageView.setImageDrawable(view.getResources().getDrawable(R.drawable.boargamelogo));
-            imageView.setVisibility(View.INVISIBLE);
+            imageView.setImageBitmap(bitmap);
         }
-
         return view;
     }
 

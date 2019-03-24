@@ -40,6 +40,14 @@ public class HotActivity extends AppCompatActivity {
         private ProgressDialog gettingDataDialog;
         private boolean isWiFi;
         private HotItems itemses;
+        private OkAction okAction = new OkAction() {
+            @Override
+            public void action() {
+                Intent intent = new Intent(HotActivity.this, MainActivity.class);
+                System.out.println("fer");
+                startActivity(intent);
+            }
+        };
 
         @Override
         protected void onPreExecute() {
@@ -91,20 +99,20 @@ public class HotActivity extends AppCompatActivity {
                         });
                         break;
                     case NOT_INTERNET: {
-                        InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+                        InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("", okAction);
                         invalidDataFragment.setText(getString(R.string.NotInternet));
                         invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
                         break;
                     }
                     case ERROR: {
-                        InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+                        InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("", okAction);
                         invalidDataFragment.setText(getString(R.string.ErrorConElServidorIntenteloMasTarde));
                         invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
                         break;
                     }
                 }
             } catch (Exception e) {
-                InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("");
+                InvalidDataFragment invalidDataFragment = InvalidDataFragment.newInstance("", okAction);
                 invalidDataFragment.setText(getString(R.string.ErrorConElServidorIntenteloMasTarde));
                 invalidDataFragment.show(getSupportFragmentManager(), "fragment_edit_internet");
             } finally {
