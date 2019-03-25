@@ -25,7 +25,7 @@
     <string name="Cancelar">Cancelar</string>
     <string name="Nuevo">Nuevo</string>
     <string name="historial">Historial de usernames</string>
-    <string name="ludotecas">Ludutecas</string>
+    <string name="ludotecas">Ludotecas</string>
     <string name="TheHotness">The Hotness</string>
     <string name="NotUsers">Se necesita agregar al menos un username</string>
     <string name="JuegosVotos">Juegos con %d voto</string>
