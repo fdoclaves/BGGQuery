@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BGG Query</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -18,7 +19,6 @@
     <string name="TotalRating">TOTAL RATING</string>
     <string name="Error">Error</string>
     <string name="ElUsuarioEsInvalido">%s es un username invalido</string>
-    <string name="ok" translatable="false">OK</string>
     <string name="AgregarUsername">Agregar username</string>
     <string name="NotInternet">Se necesita internet</string>
     <string name="Agregar">Agregar</string>
@@ -26,7 +26,6 @@
     <string name="Nuevo">Nuevo</string>
     <string name="historial">Historial de usernames</string>
     <string name="ludotecas">Ludotecas</string>
-    <string name="TheHotness" translatable="false">The Hotness</string>
     <string name="NotUsers">Se necesita agregar al menos un username</string>
     <string name="JuegosVotos">Juegos con %d voto</string>
     <string name="JuegosVotosPlural">Juegos con %d votos</string>
