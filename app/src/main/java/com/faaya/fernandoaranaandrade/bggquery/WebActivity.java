@@ -12,7 +12,9 @@ import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 public class WebActivity extends AppCompatActivity {
 
@@ -21,6 +23,8 @@ public class WebActivity extends AppCompatActivity {
     private WebView webView;
 
     private String url;
+
+    private TextView textViewLoding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,20 @@ public class WebActivity extends AppCompatActivity {
         webView.getSettings().setDomStorageEnabled(true);
         webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         url = getIntent().getStringExtra(URL_WEB);
-        webView.loadUrl(url);
+        webView.post(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl(url);
+            }
+        });
+
+        textViewLoding = findViewById(R.id.textViewLoding);
+        webView.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                textViewLoding.setTextSize(0);
+            }
+        });
+
 
         Toast toast1 = Toast.makeText(getApplicationContext(), getString(R.string.CargandoSitioWeb), Toast.LENGTH_SHORT);
         toast1.show();
@@ -42,13 +59,12 @@ public class WebActivity extends AppCompatActivity {
                 .setAction(getString(R.string.Abrir), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse( url ) );
-                        startActivity( browse );
+                        Intent browse = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(browse);
                     }
                 })
                 .show();
     }
-
 
     public class WebAppInterface {
         Context mContext;
@@ -81,5 +97,6 @@ public class WebActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
 
