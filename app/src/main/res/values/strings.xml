@@ -8,7 +8,7 @@
     <string name="action_settings">Settings</string>
     <string name="UserName">username</string>
     <string name="EscribeElNombreDeLosUsuarios">Add boardgamegeek usernames</string>
-    <string name="EligirQueJugar">Eligir que jugar</string>
+    <string name="EligirQueJugar">Choose which game to play</string>
     <string name="Salir">Exit</string>
     <string name="Otros">Others</string>
     <string name="Cargando">Loading...</string>
